@@ -6,11 +6,7 @@
 
 #include <msp430.h>
 #include "uart.h"
-#include "msp430g2553.h”
 
-// Parity disabled, LSB first, 8 bit data, 1 stop bit
-
-// set_clock: Set the internal clock to the provided speed, in MHz.
 void set_clock(int speed) {
 
 }
@@ -20,15 +16,7 @@ void set_clock(int speed) {
 *  You must support a baud rate of 9600 (UART_BAUD_9600) and 115200 (UART_BAUD_115200).  The other baud rates are optional.
 */
 void init_uart(char baud) {
-  /*
-   *
-   * 1. Set UCSWRST
-   * 2. Initialize all USCI registers with UCSWRST = 1 (including UCAxCTL1)
-   * 3. Configure ports
-   * 4. Clear USCWRST via software
-   * 5. (Optional) Enable interrupts via UCAxRXIE and/or UCAxTXIE
-   *
-   * */
+  
 }
 
 // uninit_uart: Uninitialize the uart driver.
