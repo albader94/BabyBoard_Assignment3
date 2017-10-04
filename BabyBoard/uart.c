@@ -29,6 +29,26 @@ void init_uart(char baud) {
    * 5. (Optional) Enable interrupts via UCAxRXIE and/or UCAxTXIE
    *
    * */
+
+    UCA0CTL1 |= UCSWRST;    //set UCSWRST
+    UCA0CTL1 |= UCSSEL_2;   //SMCLK clock
+
+    /*8 bit char data
+     * UC7BIT = 8-bit char data bit;
+     * UCMODEx = UART mode;
+     * UCSPB = one stop bit;
+     * UCSYNC = UART mode
+     * */
+    UCA0CTL0 &= ~UC7BIT;
+
+    //Baudrate set
+    UCA0BR0 = baud;         //convert baud to hex??
+    UCA0BR1 = 0x00;
+
+    //configure ports
+    //Done in main ? :/
+
+    UCA0CTL1 &= ~ UCSWRST;  //clear UCSWRST
 }
 
 // uninit_uart: Uninitialize the uart driver.
