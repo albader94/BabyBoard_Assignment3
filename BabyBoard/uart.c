@@ -10,8 +10,36 @@
 
 // Parity disabled, LSB first, 8 bit data, 1 stop bit
 
+
+/* -----------------------------------------------------------------
+ *                          NOTES ABOUT CLOCKS
+ * ------------------------------------------------------------------
+ * MCLK:
+ *      - Drives the CPU and DMA.
+ *      - Driven by internal digitally controlled RC-oscillator (DCO).
+ *      - Software selectable as LFXT1CLK, VLOCLK, XT2CLK or DCOCLK.
+ *      - MCLK is divided by 1, 2, 4 or 8.
+ * SMCLK:
+ *      - Used for peripherals, usually synchronous to MCLK.
+ *      - Driven by internal digitally controlled RC-oscillator (DCO).
+ *      - Software selectable as LFXT1CLK, VLOCLK, XT2CLK or DCOCLK.
+ *      - Software selectable for individual peripheral modules.
+ *      - SMCLK is divided by 1, 2, 4 or 8.
+ *
+ *
+ * DCOCLK: Internal digitally controlled oscillator (DCO).
+ *      - Can be adjusted by software using the DCOx, MODx, RSELx bits
+ *      - Disabling the DCOCLK by setting SCG0.
+ *
+ *
+ * The DCOCTL, BCSCTL1, BCSCTL2, and BCSCTL3 registers configure the basic clock module+.
+ *
+ *
+ */
+
 // set_clock: Set the internal clock to the provided speed, in MHz.
 void set_clock(int speed) {
+//SMCLK clock -> DCOCLK
 
 }
 
@@ -31,7 +59,7 @@ void init_uart(char baud) {
    * */
 
     UCA0CTL1 |= UCSWRST;    //set UCSWRST
-    UCA0CTL1 |= UCSSEL_2;   //SMCLK clock
+    UCA0CTL1 |= UCSSEL_2;   //SMCLK clock  "SMCLK for UART"
 
     /*8 bit char data
      * UC7BIT = 8-bit char data bit;
@@ -41,8 +69,10 @@ void init_uart(char baud) {
      * */
     UCA0CTL0 &= ~UC7BIT;
 
-    //Baudrate set
-    UCA0BR0 = baud;         //convert baud to hex??
+    //Baud rate set
+    //Case statement for baud rates.
+    //if baud selected then do {baud}
+    UCA0BR0 = baud;         //convert baud to hex?? YES!
     UCA0BR1 = 0x00;
 
     //configure ports
@@ -53,7 +83,22 @@ void init_uart(char baud) {
 
 // uninit_uart: Uninitialize the uart driver.
 void uninit_uart() {
-  
+
+    UCA0CTL1 &= ~UCSWRST;    //set UCSWRST
+    UCA0CTL1 &= ~UCSSEL_2;   //SMCLK clock
+
+    /*8 bit char data
+     * UC7BIT = 8-bit char data bit;
+     * UCMODEx = UART mode;
+     * UCSPB = one stop bit;
+     * UCSYNC = UART mode
+     * */
+    UCA0CTL0 |= UC7BIT;
+
+    //configure ports
+    //Done in main ? :/
+
+    UCA0CTL1 |= UCSWRST;  //clear UCSWRST
 }
 
 // putch: Send an unsigned char via UART.  This function should transmit characters correctly regardless of how many times this function is called in rapid succession.
