@@ -6,7 +6,7 @@
 
 #include <msp430.h>
 #include "uart.h"
-#include "msp430g2553.h”
+
 
 // Parity disabled, LSB first, 8 bit data, 1 stop bit
 
@@ -39,8 +39,34 @@
 
 // set_clock: Set the internal clock to the provided speed, in MHz.
 void set_clock(int speed) {
-//SMCLK clock -> DCOCLK
 
+    //Reset clock frequency control
+    DCOCTL = 0;
+
+    switch (speed){
+
+        //For 1 MHZ speed
+        case 1:
+            BCSCTL1 = CAL_BC1_1MHZ;     //Basic clock system control = 1MHZ
+            DCOCTL = CAL_DCO_1MHZ;      //Clock frequency control = 1MHZ
+        break;
+
+        //For 8 MHZ speed
+        case 8:
+            BCSCTL1 = CAL_BC1_8MHZ;     //Basic clock system control = 8MHZ
+            DCOCTL = CAL_DCO_8MHZ;      //Clock frequency control = 8MHZ
+        break;
+
+        //For 16 MHZ speed
+        case 16:
+            BCSCTL1 = CAL_BC1_16MHZ;    //Basic clock system control = 16MHZ
+            DCOCTL = CAL_DCO_16MHZ;     //Clock frequency control = 16MHZ
+        break;
+
+        default:
+        break;
+
+    }
 }
 
 /* init_uart: Initialize everything necessary for the UART functionality you are implementing.
@@ -56,7 +82,7 @@ void init_uart(char baud) {
    * 4. Clear USCWRST via software
    * 5. (Optional) Enable interrupts via UCAxRXIE and/or UCAxTXIE
    *
-   * */
+   */
 
     UCA0CTL1 |= UCSWRST;    //set UCSWRST
     UCA0CTL1 |= UCSSEL_2;   //SMCLK clock  "SMCLK for UART"
@@ -67,13 +93,65 @@ void init_uart(char baud) {
      * UCSPB = one stop bit;
      * UCSYNC = UART mode
      * */
-    UCA0CTL0 &= ~UC7BIT;
 
-    //Baud rate set
-    //Case statement for baud rates.
-    //if baud selected then do {baud}
-    UCA0BR0 = baud;         //convert baud to hex?? YES!
-    UCA0BR1 = 0x00;
+    UCA0CTL0 &= ~UC7BIT;     //8-bit data
+    UCA0CTL0 &= ~UCPEN;      //Disable parity bit
+    UCA0CTL0 &= ~UCSPB;      //One stop bit
+    UCA0CTL0 &= ~UCMSB;      //LSB first
+
+    /*
+     *Baud rate set
+     *Case statement for baud rates.
+     *Case values from uart.h
+     */
+    switch (baud){
+
+        //TABLE ON PAGE 424 data sheet
+
+        //Baud = 9600
+        case 0:
+            UCA0BR0 = 0x6D;     //109 decimal = 6D in hex
+            UCA0BR1 = 0x00;
+            UCA0MCTL = UCBRS_2;  //Modulation control, set to Second Stage Modulation Select 2
+            UCA0MCTL = UCBRF_0;  //Modulation control, USCI First Stage Modulation Select 0
+        break;
+
+        //Baud = 19200
+        case 1:
+            UCA0BR0 = 0x36;     //54 decimal = 36 in hex
+            UCA0BR1 = 0x00;
+            UCA0MCTL = UCBRS_5;  //Modulation control, set to Second Stage Modulation Select 5
+            UCA0MCTL = UCBRF_0;  //Modulation control, USCI First Stage Modulation Select 0
+        break;
+
+        //Baud = 38400
+        case 2:
+            UCA0BR0 = 0x1B;     //27 decimal = 1B in hex
+            UCA0BR1 = 0x00;
+            UCA0MCTL = UCBRS_2;  //Modulation control, set to Second Stage Modulation Select 2
+            UCA0MCTL = UCBRF_0;  //Modulation control, USCI First Stage Modulation Select 0
+        break;
+
+        //Baud = 56000
+        case 3:
+            UCA0BR0 = 0x12;     //18 decimal = 12 in hex
+            UCA0BR1 = 0x00;
+            UCA0MCTL = UCBRS_6;  //Modulation control, set to Second Stage Modulation Select 6
+            UCA0MCTL = UCBRF_0;  //Modulation control, USCI First Stage Modulation Select 0
+        break;
+
+        //Baud = 115200
+        case 4:
+            UCA0BR0 = 0x9;     //9 decimal = 9 in hex
+            UCA0BR1 = 0x00;
+            UCA0MCTL = UCBRS_1;  //Modulation control, set to Second Stage Modulation Select 1
+            UCA0MCTL = UCBRF_0;  //Modulation control, USCI First Stage Modulation Select 0
+        break;
+
+        default:
+        break;
+
+    }
 
     //configure ports
     //Done in main ? :/
