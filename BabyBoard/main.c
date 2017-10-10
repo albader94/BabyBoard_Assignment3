@@ -12,7 +12,7 @@
 
 // Input functions (using uart_rx)
 int is_whitespace(char input, int newline);
-void read_line(char buffer[], unsigned fint word_count, unsigned int word_length);
+void read_line(char buffer[], unsigned int word_count, unsigned int word_length);
 
 // User input buffer: no more than 2 words, no more than 8 characters each
 #define WC 2
