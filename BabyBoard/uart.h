@@ -37,6 +37,6 @@ void put_str(unsigned char* c);
 //   If no character has been received and block is set to zero, return -1.
 //   If no character has been received and block is set to one, wait for a character to be received and then return that character.
 // Thus, if the microcontroller receives 'a' one time, and this function is called twice with block = 0, the first call should return 'a' and the second should return -1.  If the microcontroller receives 'a' one time, and this function is called twice with block = 1, the first call should return 'a' and the second should wait indefinitely until a character is received, and then return that character.
-int uart_rx(char block);
+char uart_rx(char block);
 
 #endif

@@ -182,14 +182,14 @@ void uninit_uart() {
 
 // putch: Send an unsigned char via UART.  This function should transmit characters correctly regardless of how many times this function is called in rapid succession.
 void putch(unsigned char c) {
-    //I am not completely sure about this code, it feels incomplete
-    UCA0TXBUF = c; //Puts the character that needs sending into the transmit buffer. Should be enough to send the char?
+    while(UCBUSY == 1); //UCBUSY is 1 when USCI is transmitting, 0 when USCI is inactive (pg 431).
+    UCA0TXBUF = c; //Puts the character that needs sending into the transmit buffer.
     return;
 }
 
 // put_str: Send each element of a null-terminated array of unsigned chars via UART.  Do not send the final null-termination character.
 void put_str(unsigned char* c) {
-    int i = 0;                      //Initialize counter because for loops give errors for some reason
+    int i = 0;                      //Initialize counter because for loops give errors
     int size = strlen((char*)c);    //Create a variable that contains the size of the string
 
     //Goes through each character in the string and sends it through the putch function. Sends strings 1 character a time.
@@ -215,11 +215,12 @@ void put_str(unsigned char* c) {
 //Returns int but specifications ask for char.
 //Making the assumption that UCA0RXBUF is empty when it is equal to zero.
 //No functionality yet implemented to clear the buffer once character is received (Does buffer automatically clear?).
-int uart_rx(char block) {
+char uart_rx(char block) {
 
   //If the buffer contains a character, return the character.
   if(UCA0RXBUF != 0){
-      return UCA0RXBUF; //Returns the current value stored on the RX buffer. (Is the UCA0RXBUF a char? Does it need to be cast to an int? Does the return value of this funciton need to be char?)
+      char recieved_char = UCA0RXBUF;
+      return recieved_char; //Returns the current value stored on the RX buffer.
   }
 
   //If block is set to zero and no character is received, return -1.
@@ -229,5 +230,6 @@ int uart_rx(char block) {
 
   //Functionality when block is one and buffer is initially empty. Waits for the RX buffer to become a value and then returns that value.
   while(UCA0RXBUF == 0);
-  return UCA0RXBUF; //Returns the current value stored on the RX buffer.
+  char recieved_char = UCA0RXBUF;
+  return recieved_char;  //Returns the current value stored on the RX buffer.
 }
