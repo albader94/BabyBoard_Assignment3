@@ -218,7 +218,8 @@ void put_str(unsigned char* c) {
 char uart_rx(char block) {
 
   //If the buffer contains a character, return the character.
-  if(UCA0RXBUF != 0){
+  //UCA0RXIFG, if 0 buffer is empty, if 1 buffer is full
+  if(UCA0RXIFG != 0){
       char recieved_char = UCA0RXBUF;
       return recieved_char; //Returns the current value stored on the RX buffer.
   }
@@ -229,7 +230,7 @@ char uart_rx(char block) {
   }
 
   //Functionality when block is one and buffer is initially empty. Waits for the RX buffer to become a value and then returns that value.
-  while(UCA0RXBUF == 0);
+  while(UCA0RXIFG == 0);
   char recieved_char = UCA0RXBUF;
   return recieved_char;  //Returns the current value stored on the RX buffer.
 }
