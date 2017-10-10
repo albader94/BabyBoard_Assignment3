@@ -160,13 +160,21 @@ void init_uart(char baud) {
 // uninit_uart: Uninitialize the uart driver.
 void uninit_uart() {
 
-    UCA0CTL1 &= ~UCSSEL_2;   //SMCLK clock **RESET**
+    UCA0CTL1 &= ~UCSWRST;    //set UCSWRST
+    UCA0CTL1 &= ~UCSSEL_2;   //SMCLK clock
 
-    UCA0CTL1 &= ~UCSWRST;    //reset UCSWRST
-    UCA0MCTL = UCBRS_0;     //Modulation control, set to Second Stage Modulation Select 0
-    UCA0MCTL = UCBRF_0;     //Modulation control, USCI First Stage Modulation Select 0
-    UCA0CTL0 = 0;           //reset control register 0
+    /*8 bit char data
+     * UC7BIT = 8-bit char data bit;
+     * UCMODEx = UART mode;
+     * UCSPB = one stop bit;
+     * UCSYNC = UART mode
+     * */
+    UCA0CTL0 |= UC7BIT;
 
+    //configure ports
+    //Done in main ? :/
+
+    UCA0CTL1 |= UCSWRST;  //clear UCSWRST
 }
 
 // putch: Send an unsigned char via UART.  This function should transmit characters correctly regardless of how many times this function is called in rapid succession.
