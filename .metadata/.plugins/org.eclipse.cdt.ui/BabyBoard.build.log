@@ -2,16 +2,20 @@
 **** Build of configuration Debug for project BabyBoard ****
 
 "C:\\Program Files (x86)\\ccsv7\\utils\\bin\\gmake" -k -j 4 all -O 
+'Building file: ../uart.c'
+'Invoking: MSP430 Compiler'
+"C:/Program Files (x86)/ccsv7/tools/compiler/ti-cgt-msp430_16.9.3.LTS/bin/cl430" -vmsp --use_hw_mpy=none --include_path="C:/Program Files (x86)/ccsv7/ccs_base/msp430/include" --include_path="C:/Users/baal8860/Documents/GitHub/BabyBoard_Assignment3/BabyBoard" --include_path="C:/Program Files (x86)/ccsv7/tools/compiler/ti-cgt-msp430_16.9.3.LTS/include" --advice:power=all --define=__MSP430G2553__ -g --printf_support=minimal --diag_warning=225 --diag_wrap=off --display_error_number --preproc_with_compile --preproc_dependency="uart.d"  "../uart.c"
+"../uart.c", line 174: remark #1528-D: (ULP 3.1) Detected flag polling using UCBUSY. Recommend using an interrupt combined with enter LPMx and ISR
+"../uart.c", line 175: warning #112-D: statement is unreachable
+"../uart.c", line 217: warning #112-D: statement is unreachable
+"../uart.c", line 218: warning #69-D: integer conversion resulted in a change of sign
+"../uart.c", line 222: remark #1528-D: (ULP 3.1) Detected flag polling using UCA0RXIFG. Recommend using an interrupt combined with enter LPMx and ISR
+'Finished building: ../uart.c'
+' '
 'Building file: ../main.c'
 'Invoking: MSP430 Compiler'
 "C:/Program Files (x86)/ccsv7/tools/compiler/ti-cgt-msp430_16.9.3.LTS/bin/cl430" -vmsp --use_hw_mpy=none --include_path="C:/Program Files (x86)/ccsv7/ccs_base/msp430/include" --include_path="C:/Users/baal8860/Documents/GitHub/BabyBoard_Assignment3/BabyBoard" --include_path="C:/Program Files (x86)/ccsv7/tools/compiler/ti-cgt-msp430_16.9.3.LTS/include" --advice:power=all --define=__MSP430G2553__ -g --printf_support=minimal --diag_warning=225 --diag_wrap=off --display_error_number --preproc_with_compile --preproc_dependency="main.d"  "../main.c"
-
->> Compilation failure
-subdir_rules.mk:9: recipe for target 'main.obj' failed
-"../main.c", line 15: error #18: expected a ")"
-"../main.c", line 58: error #141: too many arguments in function call
 "../main.c", line 146: remark #1527-D: (ULP 2.1) Detected SW delay loop using empty loop. Recommend using a timer module instead
-"../main.c", line 151: error #148: declaration is incompatible with "void read_line(char *, unsigned int)" (declared at line 15)
 "../main.c", line 154: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
 "../main.c", line 155: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
 "../main.c", line 156: remark #1533-D: (ULP 6.1) Detected use of multiplication on a device that has no hardware multiplier
@@ -19,14 +23,13 @@ subdir_rules.mk:9: recipe for target 'main.obj' failed
 "../main.c", line 218: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
 "../main.c", line 219: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
 "../main.c", line 220: remark #1533-D: (ULP 6.1) Detected use of multiplication on a device that has no hardware multiplier
-3 errors detected in the compilation of "../main.c".
-gmake: *** [main.obj] Error 1
-'Building file: ../uart.c'
-'Invoking: MSP430 Compiler'
-"C:/Program Files (x86)/ccsv7/tools/compiler/ti-cgt-msp430_16.9.3.LTS/bin/cl430" -vmsp --use_hw_mpy=none --include_path="C:/Program Files (x86)/ccsv7/ccs_base/msp430/include" --include_path="C:/Users/baal8860/Documents/GitHub/BabyBoard_Assignment3/BabyBoard" --include_path="C:/Program Files (x86)/ccsv7/tools/compiler/ti-cgt-msp430_16.9.3.LTS/include" --advice:power=all --define=__MSP430G2553__ -g --printf_support=minimal --diag_warning=225 --diag_wrap=off --display_error_number --preproc_with_compile --preproc_dependency="uart.d"  "../uart.c"
-"../uart.c", line 231: remark #1527-D: (ULP 2.1) Detected SW delay loop using empty loop. Recommend using a timer module instead
-'Finished building: ../uart.c'
+'Finished building: ../main.c'
 ' '
-gmake: Target 'all' not remade because of errors.
+'Building target: BabyBoard.out'
+'Invoking: MSP430 Linker'
+"C:/Program Files (x86)/ccsv7/tools/compiler/ti-cgt-msp430_16.9.3.LTS/bin/cl430" -vmsp --use_hw_mpy=none --advice:power=all --define=__MSP430G2553__ -g --printf_support=minimal --diag_warning=225 --diag_wrap=off --display_error_number -z -m"BabyBoard.map" --heap_size=80 --stack_size=80 -i"C:/Program Files (x86)/ccsv7/ccs_base/msp430/include" -i"C:/Program Files (x86)/ccsv7/tools/compiler/ti-cgt-msp430_16.9.3.LTS/lib" -i"C:/Program Files (x86)/ccsv7/tools/compiler/ti-cgt-msp430_16.9.3.LTS/include" --reread_libs --diag_wrap=off --display_error_number --warn_sections --xml_link_info="BabyBoard_linkInfo.xml" --use_hw_mpy=none --rom_model -o "BabyBoard.out" "./main.obj" "./uart.obj" "../lnk_msp430g2553.cmd"  -llibc.a 
+<Linking>
+'Finished building target: BabyBoard.out'
+' '
 
 **** Build Finished ****

@@ -1259,3 +1259,11 @@ java.io.FileNotFoundException: C:\Users\baal8860\Documents\GitHub\BabyBoard_Assi
 	at org.eclipse.core.internal.resources.SaveManager.save(SaveManager.java:1165)
 	at org.eclipse.core.internal.resources.DelayedSnapshotJob.run(DelayedSnapshotJob.java:52)
 	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:55)
+
+!ENTRY com.ti.ccstudio.debug 1 0 2017-10-10 11:00:48.174
+!MESSAGE DS_ERROR: MSP430: Error initializing emulator: No USB FET was found
+
+
+!ENTRY com.ti.ccstudio.debug 1 0 2017-10-10 11:00:48.304
+!MESSAGE DS_ERROR: Error initializing emulator:
+No USB FET was found
