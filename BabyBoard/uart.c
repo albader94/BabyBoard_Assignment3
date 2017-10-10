@@ -6,6 +6,7 @@
 
 #include <msp430.h>
 #include "uart.h"
+#include <string.h>
 
 
 // Parity disabled, LSB first, 8 bit data, 1 stop bit
@@ -181,13 +182,25 @@ void uninit_uart() {
 
 // putch: Send an unsigned char via UART.  This function should transmit characters correctly regardless of how many times this function is called in rapid succession.
 void putch(unsigned char c) {
-  
+    //I am not completely sure about this code, it feels incomplete
+    UCA0TXBUF = c; //Puts the character that needs sending into the transmit buffer. Should be enough to send the char?
+    return;
 }
 
 // put_str: Send each element of a null-terminated array of unsigned chars via UART.  Do not send the final null-termination character.
 void put_str(unsigned char* c) {
-  
+    int i = 0;                      //Initialize counter because for loops give errors for some reason
+    int size = strlen((char*)c);    //Create a variable that contains the size of the string
+
+    //Goes through each character in the string and sends it through the putch function. Sends strings 1 character a time.
+    while(i < size){
+        putch(*(c + i));
+        i++;
+    }
+    return;
 }
+
+//Between putch and put_str I feel like there should be some sort of functionality (while(something);) that allows the buffer to properly clear and then be given a new char.
 
 /*  uart_rx: Return the most recent character received via UART.
 *   The block parameter determines the behavior of uart_rx if no character has been received.  The functionality is defined as follows:
@@ -198,6 +211,23 @@ void put_str(unsigned char* c) {
 *   If the microcontroller receives 'a' one time, and this function is called twice with block = 1, the first call should return 'a' and the
 *   second should wait indefinitely until a character is received, and then return that character.
 */
+
+//Returns int but specifications ask for char.
+//Making the assumption that UCA0RXBUF is empty when it is equal to zero.
+//No functionality yet implemented to clear the buffer once character is received (Does buffer automatically clear?).
 int uart_rx(char block) {
-  
+
+  //If the buffer contains a character, return the character.
+  if(UCA0RXBUF != 0){
+      return UCA0RXBUF; //Returns the current value stored on the RX buffer. (Is the UCA0RXBUF a char? Does it need to be cast to an int? Does the return value of this funciton need to be char?)
+  }
+
+  //If block is set to zero and no character is received, return -1.
+  if(block == 0){
+      return -1;
+  }
+
+  //Functionality when block is one and buffer is initially empty. Waits for the RX buffer to become a value and then returns that value.
+  while(UCA0RXBUF == 0);
+  return UCA0RXBUF; //Returns the current value stored on the RX buffer.
 }
