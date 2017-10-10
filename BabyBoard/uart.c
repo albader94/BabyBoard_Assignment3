@@ -189,8 +189,6 @@ void put_str(unsigned char* c) {
     return;
 }
 
-//Between putch and put_str I feel like there should be some sort of functionality (while(something);) that allows the buffer to properly clear and then be given a new char.
-
 /*  uart_rx: Return the most recent character received via UART.
 *   The block parameter determines the behavior of uart_rx if no character has been received.  The functionality is defined as follows:
 *   If a character has been received, return the most recently received character.
