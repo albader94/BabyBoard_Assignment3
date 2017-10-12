@@ -85,6 +85,8 @@ void init_uart(char baud) {
    *
    */
 
+    //bauds[2][3];
+
     UCA0CTL1 |= UCSWRST;    //set UCSWRST
     UCA0CTL1 |= UCSSEL_2;   //SMCLK clock  "SMCLK for UART"
 
@@ -111,10 +113,20 @@ void init_uart(char baud) {
 
         //Baud = 9600
         case 0:
+            /*switch(DCOCTL){
+            case CAL_DCO_1MHZ:
+                break;
+            case CAL_DCO_8MHZ:
+                break;
+            case CAL_DCO_16MHZ:
+                break;
+            }*/
             UCA0BR0 = 0x6D;     //109 decimal = 6D in hex
             UCA0BR1 = 0x00;
             UCA0MCTL |= UCBRS_2;  //Modulation control, set to Second Stage Modulation Select 2
             UCA0MCTL |= UCBRF_0;  //Modulation control, USCI First Stage Modulation Select 0
+            // UCA0BR0 = bauds[clock][baud] & 0x00FF;
+            // UCA0BR1 = (bauds[clock][baud] & 0xFF00) >> 8;
         break;
 
         //Baud = 19200
@@ -143,6 +155,14 @@ void init_uart(char baud) {
 
         //Baud = 115200
         case 4:
+            /*switch(DCOCTL){
+                        case CAL_DCO_1MHZ:
+                            break;
+                        case CAL_DCO_8MHZ:
+                            break;
+                        case CAL_DCO_16MHZ:
+                            break;
+                        }*/
             UCA0BR0 = 0x9;     //9 decimal = 9 in hex
             UCA0BR1 = 0x00;
             UCA0MCTL |= UCBRS_1;  //Modulation control, set to Second Stage Modulation Select 1
