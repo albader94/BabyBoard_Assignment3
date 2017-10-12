@@ -33,7 +33,7 @@ int main(void) {
   WDTCTL = WDTPW + WDTHOLD; // Stop watchdog timer
 
   // Begin with clock at 8MHz
-  set_clock(8);
+  set_clock(1);
 
   // Initialize port 1
   P1DIR |= BIT4;
@@ -49,6 +49,10 @@ int main(void) {
   // Initialize UART with 9600 baud
   char baud = UART_BAUD_9600;
   init_uart(baud);
+
+  while(1){
+      putch('a');
+  }
 
   // Main loop
   while (1) {
