@@ -113,40 +113,40 @@ void init_uart(char baud) {
         case 0:
             UCA0BR0 = 0x6D;     //109 decimal = 6D in hex
             UCA0BR1 = 0x00;
-            UCA0MCTL = UCBRS_2;  //Modulation control, set to Second Stage Modulation Select 2
-            UCA0MCTL = UCBRF_0;  //Modulation control, USCI First Stage Modulation Select 0
+            UCA0MCTL |= UCBRS_2;  //Modulation control, set to Second Stage Modulation Select 2
+            UCA0MCTL |= UCBRF_0;  //Modulation control, USCI First Stage Modulation Select 0
         break;
 
         //Baud = 19200
         case 1:
             UCA0BR0 = 0x36;     //54 decimal = 36 in hex
             UCA0BR1 = 0x00;
-            UCA0MCTL = UCBRS_5;  //Modulation control, set to Second Stage Modulation Select 5
-            UCA0MCTL = UCBRF_0;  //Modulation control, USCI First Stage Modulation Select 0
+            UCA0MCTL |= UCBRS_5;  //Modulation control, set to Second Stage Modulation Select 5
+            UCA0MCTL |= UCBRF_0;  //Modulation control, USCI First Stage Modulation Select 0
         break;
 
         //Baud = 38400
         case 2:
             UCA0BR0 = 0x1B;     //27 decimal = 1B in hex
             UCA0BR1 = 0x00;
-            UCA0MCTL = UCBRS_2;  //Modulation control, set to Second Stage Modulation Select 2
-            UCA0MCTL = UCBRF_0;  //Modulation control, USCI First Stage Modulation Select 0
+            UCA0MCTL |= UCBRS_2;  //Modulation control, set to Second Stage Modulation Select 2
+            UCA0MCTL |= UCBRF_0;  //Modulation control, USCI First Stage Modulation Select 0
         break;
 
         //Baud = 56000
         case 3:
             UCA0BR0 = 0x12;     //18 decimal = 12 in hex
             UCA0BR1 = 0x00;
-            UCA0MCTL = UCBRS_6;  //Modulation control, set to Second Stage Modulation Select 6
-            UCA0MCTL = UCBRF_0;  //Modulation control, USCI First Stage Modulation Select 0
+            UCA0MCTL |= UCBRS_6;  //Modulation control, set to Second Stage Modulation Select 6
+            UCA0MCTL |= UCBRF_0;  //Modulation control, USCI First Stage Modulation Select 0
         break;
 
         //Baud = 115200
         case 4:
             UCA0BR0 = 0x9;     //9 decimal = 9 in hex
             UCA0BR1 = 0x00;
-            UCA0MCTL = UCBRS_1;  //Modulation control, set to Second Stage Modulation Select 1
-            UCA0MCTL = UCBRF_0;  //Modulation control, USCI First Stage Modulation Select 0
+            UCA0MCTL |= UCBRS_1;  //Modulation control, set to Second Stage Modulation Select 1
+            UCA0MCTL |= UCBRF_0;  //Modulation control, USCI First Stage Modulation Select 0
         break;
 
         default:
@@ -171,13 +171,14 @@ void uninit_uart() {
 
 // putch: Send an unsigned char via UART.  This function should transmit characters correctly regardless of how many times this function is called in rapid succession.
 void putch(unsigned char c) {
-    while(UCBUSY == 1); //UCBUSY is 1 when USCI is transmitting, 0 when USCI is inactive (pg 431).
+    while(UCA0TXIFG == 0); //pg 433.
     UCA0TXBUF = c; //Puts the character that needs sending into the transmit buffer.
     return;
 }
 
 // put_str: Send each element of a null-terminated array of unsigned chars via UART.  Do not send the final null-termination character.
 void put_str(unsigned char* c) {
+    //putch('a');
     int i = 0;                      //Initialize counter because for loops give errors
     int size = strlen((char*)c);    //Create a variable that contains the size of the string
 
@@ -205,8 +206,8 @@ void put_str(unsigned char* c) {
 char uart_rx(char block) {
 
   //If the buffer contains a character, return the character.
-  //UCA0RXIFG, if 0 buffer is empty, if 1 buffer is full
-  if(UCA0RXIFG != 0){
+  //UCA0RXIFG: If 0 buffer is empty. If 1 buffer is full.
+  if(UCA0RXIFG == 1){
       char recieved_char = UCA0RXBUF;
       return recieved_char; //Returns the current value stored on the RX buffer.
   }
