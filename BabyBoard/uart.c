@@ -97,6 +97,9 @@ void init_uart(char baud) {
      * UCSYNC = UART mode
      * */
 
+    P1SEL |= 0x6;
+    P1SEL2 |= 0x6;
+
     UCA0CTL0 &= ~UC7BIT;     //8-bit data
     UCA0CTL0 &= ~UCPEN;      //Disable parity bit
     UCA0CTL0 &= ~UCSPB;      //One stop bit
