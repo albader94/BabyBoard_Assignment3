@@ -97,13 +97,15 @@ void init_uart(char baud) {
      * UCSYNC = UART mode
      * */
 
-    P1SEL |= 0x6;
-    P1SEL2 |= 0x6;
-
     UCA0CTL0 &= ~UC7BIT;     //8-bit data
+    UCA0CTL0 &= ~UCMODE0;
     UCA0CTL0 &= ~UCPEN;      //Disable parity bit
     UCA0CTL0 &= ~UCSPB;      //One stop bit
     UCA0CTL0 &= ~UCMSB;      //LSB first
+    UCA0CTL0 &= ~UCSYNC;
+
+    P1SEL |= 0x6;
+    P1SEL2 |= 0x6;
 
     /*
      *Baud rate set
@@ -265,7 +267,7 @@ char uart_rx(char block) {
 
   //If the buffer contains a character, return the character.
   //UCA0RXIFG: If 0 buffer is empty. If 1 buffer is full.
-  if(IFG2 & UCA0RXIFG){
+  if(IFG1 & UCA0RXIFG){
       char recieved_char = UCA0RXBUF;
       return recieved_char; //Returns the current value stored on the RX buffer.
   }
@@ -276,7 +278,7 @@ char uart_rx(char block) {
   }
 
   //Functionality when block is one and buffer is initially empty. Waits for the RX buffer to become a value and then returns that value.
-  while(!(IFG2 & UCA0RXIFG));
-  char recieved_char = UCA0RXBUF;
-  return recieved_char;  //Returns the current value stored on the RX buffer.
+  //while(!(IFG1 & UCA0RXIFG));
+  char recieved_char = 'a';//UCA0RXBUF;
+  return 'a';  //Returns the current value stored on the RX buffer.
 }
