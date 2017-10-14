@@ -111,62 +111,97 @@ void init_uart(char baud) {
 
         //TABLE ON PAGE 424 data sheet
 
+        // UCA0BR0 = bauds[clock][baud] & 0x00FF;
+        // UCA0BR1 = (bauds[clock][baud] & 0xFF00) >> 8;
+
         //Baud = 9600
         case 0:
-            /*switch(DCOCTL){
-            case CAL_DCO_1MHZ:
+            switch(DCOCTL){
+
+                //1MHz, 9600 Baud
+                case CAL_DCO_1MHZ:
+                    UCA0BR0 = 0x6D;     //104 decimal = 68 in hex
+                    UCA0BR1 = 0x00;
+                    UCA0MCTL |= UCBRS_1;  //Modulation control, set to Second Stage Modulation Select 2
+                    UCA0MCTL |= UCBRF_0;  //Modulation control, USCI First Stage Modulation Select 0
                 break;
-            case CAL_DCO_8MHZ:
+
+                //8MHz, 9600 Baud
+                case CAL_DCO_8MHZ:
+                    UCA0BR0 = 0x41;     //833 decimal = 341 in hex
+                    UCA0BR1 = 0x03;
+                    UCA0MCTL |= UCBRS_2;  //Modulation control, set to Second Stage Modulation Select 2
+                    UCA0MCTL |= UCBRF_0;  //Modulation control, USCI First Stage Modulation Select 0
                 break;
-            case CAL_DCO_16MHZ:
+
+                //16MHz, 9600 Baud
+                case CAL_DCO_16MHZ:
+                    UCA0BR0 = 0x82;     //1666 decimal = 682 in hex
+                    UCA0BR1 = 0x06;
+                    UCA0MCTL |= UCBRS_6;  //Modulation control, set to Second Stage Modulation Select 6
+                    UCA0MCTL |= UCBRF_0;  //Modulation control, USCI First Stage Modulation Select 0
                 break;
-            }*/
-            UCA0BR0 = 0x6D;     //109 decimal = 6D in hex
-            UCA0BR1 = 0x00;
-            UCA0MCTL |= UCBRS_2;  //Modulation control, set to Second Stage Modulation Select 2
-            UCA0MCTL |= UCBRF_0;  //Modulation control, USCI First Stage Modulation Select 0
-            // UCA0BR0 = bauds[clock][baud] & 0x00FF;
-            // UCA0BR1 = (bauds[clock][baud] & 0xFF00) >> 8;
+
+                default:
+                break;
+            }
         break;
 
         //Baud = 19200
-        case 1:
-            UCA0BR0 = 0x36;     //54 decimal = 36 in hex
+        //case 1:
+            /*UCA0BR0 = 0x36;     //54 decimal = 36 in hex
             UCA0BR1 = 0x00;
             UCA0MCTL |= UCBRS_5;  //Modulation control, set to Second Stage Modulation Select 5
-            UCA0MCTL |= UCBRF_0;  //Modulation control, USCI First Stage Modulation Select 0
-        break;
+            UCA0MCTL |= UCBRF_0;*/  //Modulation control, USCI First Stage Modulation Select 0
+        //break;
 
         //Baud = 38400
-        case 2:
-            UCA0BR0 = 0x1B;     //27 decimal = 1B in hex
+        //case 2:
+            /*UCA0BR0 = 0x1B;     //27 decimal = 1B in hex
             UCA0BR1 = 0x00;
             UCA0MCTL |= UCBRS_2;  //Modulation control, set to Second Stage Modulation Select 2
-            UCA0MCTL |= UCBRF_0;  //Modulation control, USCI First Stage Modulation Select 0
-        break;
+            UCA0MCTL |= UCBRF_0;*/  //Modulation control, USCI First Stage Modulation Select 0
+        //break;
 
         //Baud = 56000
-        case 3:
+        /*case 3:
             UCA0BR0 = 0x12;     //18 decimal = 12 in hex
             UCA0BR1 = 0x00;
             UCA0MCTL |= UCBRS_6;  //Modulation control, set to Second Stage Modulation Select 6
             UCA0MCTL |= UCBRF_0;  //Modulation control, USCI First Stage Modulation Select 0
-        break;
+        break;*/
 
         //Baud = 115200
         case 4:
-            /*switch(DCOCTL){
-                        case CAL_DCO_1MHZ:
-                            break;
-                        case CAL_DCO_8MHZ:
-                            break;
-                        case CAL_DCO_16MHZ:
-                            break;
-                        }*/
-            UCA0BR0 = 0x9;     //9 decimal = 9 in hex
-            UCA0BR1 = 0x00;
-            UCA0MCTL |= UCBRS_1;  //Modulation control, set to Second Stage Modulation Select 1
-            UCA0MCTL |= UCBRF_0;  //Modulation control, USCI First Stage Modulation Select 0
+            switch(DCOCTL){
+
+                //1 MHz, 115200 Baud
+                case CAL_DCO_1MHZ:
+                    UCA0BR0 = 0x08;     //8 decimal = 08 in hex
+                    UCA0BR1 = 0x00;
+                    UCA0MCTL |= UCBRS_6;  //Modulation control, set to Second Stage Modulation Select 6
+                    UCA0MCTL |= UCBRF_0;  //Modulation control, USCI First Stage Modulation Select 0
+                break;
+
+                //8 MHz, 115200 Baud
+                case CAL_DCO_8MHZ:
+                    UCA0BR0 = 0x45;     //69 decimal = 45 in hex
+                    UCA0BR1 = 0x00;
+                    UCA0MCTL |= UCBRS_4;  //Modulation control, set to Second Stage Modulation Select 4
+                    UCA0MCTL |= UCBRF_0;  //Modulation control, USCI First Stage Modulation Select 0
+                break;
+
+                //16 MHz, 115200 Baud
+                case CAL_DCO_16MHZ:
+                    UCA0BR0 = 0x8A;     //138 decimal = 8A in hex
+                    UCA0BR1 = 0x00;
+                    UCA0MCTL |= UCBRS_7;  //Modulation control, set to Second Stage Modulation Select 7
+                    UCA0MCTL |= UCBRF_0;  //Modulation control, USCI First Stage Modulation Select 0
+                break;
+
+                default:
+                    break;
+            }
         break;
 
         default:
