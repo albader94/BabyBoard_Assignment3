@@ -120,7 +120,7 @@ void init_uart(char baud) {
 
                 //1MHz, 9600 Baud
                 case CAL_DCO_1MHZ:
-                    UCA0BR0 = 0x6D;     //104 decimal = 68 in hex
+                    UCA0BR0 = 0x68;     //104 decimal = 68 in hex
                     UCA0BR1 = 0x00;
                     UCA0MCTL |= UCBRS_1;  //Modulation control, set to Second Stage Modulation Select 2
                     UCA0MCTL |= UCBRF_0;  //Modulation control, USCI First Stage Modulation Select 0

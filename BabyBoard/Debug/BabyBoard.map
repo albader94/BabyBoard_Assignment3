@@ -1,7 +1,7 @@
 ******************************************************************************
                   MSP430 Linker PC v16.9.4                     
 ******************************************************************************
->> Linked Sat Oct 14 15:59:33 2017
+>> Linked Sat Oct 14 16:00:50 2017
 
 OUTPUT FILE NAME:   <BabyBoard.out>
 ENTRY POINT SYMBOL: "_c_int00_noinit_noargs_noexit"  address: 0000c150
