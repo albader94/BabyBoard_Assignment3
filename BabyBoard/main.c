@@ -50,9 +50,9 @@ int main(void) {
   char baud = UART_BAUD_9600;
   init_uart(baud);
 
-  while(1){
-      putch('a');
-  }
+ // while(1){
+   //   putch(0x61);
+  //}
 
   // Main loop
   while (1) {
