@@ -229,8 +229,8 @@ void uninit_uart() {
 
 // putch: Send an unsigned char via UART.  This function should transmit characters correctly regardless of how many times this function is called in rapid succession.
 void putch(unsigned char c) {
-    while(UCA0TXIFG == 0); //pg 433.
-    UCA0TXBUF = c; //Puts the character that needs sending into the transmit buffer.
+    while(!(IFG2 & UCA0TXIFG)); //pg 433.
+    UCA0TXBUF = (char) c; //Puts the character that needs sending into the transmit buffer.
     return;
 }
 
@@ -265,7 +265,7 @@ char uart_rx(char block) {
 
   //If the buffer contains a character, return the character.
   //UCA0RXIFG: If 0 buffer is empty. If 1 buffer is full.
-  if(UCA0RXIFG == 1){
+  if(IFG2 & UCA0RXIFG){
       char recieved_char = UCA0RXBUF;
       return recieved_char; //Returns the current value stored on the RX buffer.
   }
@@ -276,7 +276,7 @@ char uart_rx(char block) {
   }
 
   //Functionality when block is one and buffer is initially empty. Waits for the RX buffer to become a value and then returns that value.
-  while(UCA0RXIFG == 0);
+  while(!(IFG2 & UCA0RXIFG));
   char recieved_char = UCA0RXBUF;
   return recieved_char;  //Returns the current value stored on the RX buffer.
 }
