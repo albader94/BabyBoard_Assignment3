@@ -5,25 +5,11 @@
 'Building file: ../uart.c'
 'Invoking: MSP430 Compiler'
 "C:/Program Files (x86)/ccsv7/tools/compiler/ti-cgt-msp430_16.9.3.LTS/bin/cl430" -vmsp --use_hw_mpy=none --include_path="C:/Program Files (x86)/ccsv7/ccs_base/msp430/include" --include_path="C:/Users/baal8860/Documents/GitHub/BabyBoard_Assignment3/BabyBoard" --include_path="C:/Program Files (x86)/ccsv7/tools/compiler/ti-cgt-msp430_16.9.3.LTS/include" --advice:power=all --define=__MSP430G2553__ -g --printf_support=minimal --diag_warning=225 --diag_wrap=off --display_error_number --preproc_with_compile --preproc_dependency="uart.d"  "../uart.c"
-"../uart.c", line 174: remark #1528-D: (ULP 3.1) Detected flag polling using UCBUSY. Recommend using an interrupt combined with enter LPMx and ISR
-"../uart.c", line 175: warning #112-D: statement is unreachable
-"../uart.c", line 217: warning #112-D: statement is unreachable
-"../uart.c", line 218: warning #69-D: integer conversion resulted in a change of sign
-"../uart.c", line 222: remark #1528-D: (ULP 3.1) Detected flag polling using UCA0RXIFG. Recommend using an interrupt combined with enter LPMx and ISR
+"../uart.c", line 229: remark #1528-D: (ULP 3.1) Detected flag polling using UCA0TXIFG. Recommend using an interrupt combined with enter LPMx and ISR
+"../uart.c", line 271: warning #112-D: statement is unreachable
+"../uart.c", line 272: warning #69-D: integer conversion resulted in a change of sign
+"../uart.c", line 276: remark #1528-D: (ULP 3.1) Detected flag polling using UCA0RXIFG. Recommend using an interrupt combined with enter LPMx and ISR
 'Finished building: ../uart.c'
-' '
-'Building file: ../main.c'
-'Invoking: MSP430 Compiler'
-"C:/Program Files (x86)/ccsv7/tools/compiler/ti-cgt-msp430_16.9.3.LTS/bin/cl430" -vmsp --use_hw_mpy=none --include_path="C:/Program Files (x86)/ccsv7/ccs_base/msp430/include" --include_path="C:/Users/baal8860/Documents/GitHub/BabyBoard_Assignment3/BabyBoard" --include_path="C:/Program Files (x86)/ccsv7/tools/compiler/ti-cgt-msp430_16.9.3.LTS/include" --advice:power=all --define=__MSP430G2553__ -g --printf_support=minimal --diag_warning=225 --diag_wrap=off --display_error_number --preproc_with_compile --preproc_dependency="main.d"  "../main.c"
-"../main.c", line 146: remark #1527-D: (ULP 2.1) Detected SW delay loop using empty loop. Recommend using a timer module instead
-"../main.c", line 154: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
-"../main.c", line 155: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
-"../main.c", line 156: remark #1533-D: (ULP 6.1) Detected use of multiplication on a device that has no hardware multiplier
-"../main.c", line 173: remark #1533-D: (ULP 6.1) Detected use of multiplication on a device that has no hardware multiplier
-"../main.c", line 218: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
-"../main.c", line 219: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
-"../main.c", line 220: remark #1533-D: (ULP 6.1) Detected use of multiplication on a device that has no hardware multiplier
-'Finished building: ../main.c'
 ' '
 'Building target: BabyBoard.out'
 'Invoking: MSP430 Linker'
