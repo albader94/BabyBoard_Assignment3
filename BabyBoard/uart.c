@@ -97,14 +97,13 @@ void init_uart(char baud) {
      * UCSYNC = UART mode
      * */
 
-    //UCA0CTL0 = 0;
-    /*UCA0CTL0 &= ~UC7BIT;     //8-bit data
+    UCA0CTL0 &= ~UC7BIT;     //8-bit data
     UCA0CTL0 &= ~UCMODE0;
     UCA0CTL0 &= ~UCMODE1;
     UCA0CTL0 &= ~UCPEN;      //Disable parity bit
     UCA0CTL0 &= ~UCSPB;      //One stop bit
     UCA0CTL0 &= ~UCMSB;      //LSB first
-    UCA0CTL0 &= ~UCSYNC;*/
+    UCA0CTL0 &= ~UCSYNC;
 
     //P1SEL |= 0x6;
     //P1SEL2 |= 0x6;
@@ -265,10 +264,8 @@ void put_str(unsigned char* c) {
 *   second should wait indefinitely until a character is received, and then return that character.
 */
 
-//Returns int but specifications ask for char.
-//Making the assumption that UCA0RXBUF is empty when it is equal to zero.
-//No functionality yet implemented to clear the buffer once character is received (Does buffer automatically clear?).
 char uart_rx(char block) {
+    return;
 
   //If the buffer contains a character, return the character.
   //UCA0RXIFG: If 0 buffer is empty. If 1 buffer is full.
@@ -282,8 +279,15 @@ char uart_rx(char block) {
       return -1;
   }
 
-  //Functionality when block is one and buffer is initially empty. Waits for the RX buffer to become a value and then returns that value.
-  while(!(IFG1 & UCA0RXIFG));
+  //Functionality when block is one and buffer is initially empty. Waits for the RX buffer to hold a value and then returns that value.
+  while(!(IFG2 & UCA0RXIFG));
   char recieved_char = UCA0RXBUF;
-  return UCA0RXBUF;  //Returns the current value stored on the RX buffer.
+  putch(recieved_char);
+  return recieved_char;  //Returns the current value stored on the RX buffer.
+}
+
+#pragma vector=USCIAB0RX_VECTOR
+__interrupt void USCI0RX_ISR(void){
+    char character = UCA0RXBUF;
+    UCA0TXBUF = character;
 }

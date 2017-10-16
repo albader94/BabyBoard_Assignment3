@@ -36,8 +36,7 @@ int main(void) {
   set_clock(1);
 
   // Initialize port 1
-  P1DIR |= BIT1;
-  P1DIR |= BIT2;
+  //P1DIR |= ;
   P1SEL |= BIT1;
   P1SEL |= BIT2;
   P1SEL2 |= BIT1;
@@ -55,7 +54,7 @@ int main(void) {
 
   //while(1){
   //    putch(0x61);
- // }
+  //}
 
   // Main loop
   while (1) {
