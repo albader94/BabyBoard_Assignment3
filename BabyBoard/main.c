@@ -36,9 +36,12 @@ int main(void) {
   set_clock(1);
 
   // Initialize port 1
-  P1DIR |= BIT4;
-  P1SEL |= BIT4;
-  P1SEL2 &= ~BIT4;
+  P1DIR |= BIT1;
+  P1DIR |= BIT2;
+  P1SEL |= BIT1;
+  P1SEL |= BIT2;
+  P1SEL2 |= BIT1;
+  P1SEL2 |= BIT2;
 
   P2DIR = BIT1; // Initialize port 2
   P2OUT = 0x00;

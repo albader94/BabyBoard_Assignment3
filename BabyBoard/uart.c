@@ -97,15 +97,17 @@ void init_uart(char baud) {
      * UCSYNC = UART mode
      * */
 
-    UCA0CTL0 &= ~UC7BIT;     //8-bit data
+    //UCA0CTL0 = 0;
+    /*UCA0CTL0 &= ~UC7BIT;     //8-bit data
     UCA0CTL0 &= ~UCMODE0;
+    UCA0CTL0 &= ~UCMODE1;
     UCA0CTL0 &= ~UCPEN;      //Disable parity bit
     UCA0CTL0 &= ~UCSPB;      //One stop bit
     UCA0CTL0 &= ~UCMSB;      //LSB first
-    UCA0CTL0 &= ~UCSYNC;
+    UCA0CTL0 &= ~UCSYNC;*/
 
-    P1SEL |= 0x6;
-    P1SEL2 |= 0x6;
+    //P1SEL |= 0x6;
+    //P1SEL2 |= 0x6;
 
     /*
      *Baud rate set
@@ -116,9 +118,6 @@ void init_uart(char baud) {
 
         //TABLE ON PAGE 424 data sheet
 
-        // UCA0BR0 = bauds[clock][baud] & 0x00FF;
-        // UCA0BR1 = (bauds[clock][baud] & 0xFF00) >> 8;
-
         //Baud = 9600
         case 0:
             switch(DCOCTL){
@@ -127,24 +126,24 @@ void init_uart(char baud) {
                 case CAL_DCO_1MHZ:
                     UCA0BR0 = 0x68;     //104 decimal = 68 in hex
                     UCA0BR1 = 0x00;
-                    UCA0MCTL |= UCBRS_1;  //Modulation control, set to Second Stage Modulation Select 2
-                    UCA0MCTL |= UCBRF_0;  //Modulation control, USCI First Stage Modulation Select 0
+                    //UCA0MCTL |= UCBRS_1;  //Modulation control, set to Second Stage Modulation Select 2
+                    //UCA0MCTL |= UCBRF_0;  //Modulation control, USCI First Stage Modulation Select 0
                 break;
 
                 //8MHz, 9600 Baud
                 case CAL_DCO_8MHZ:
                     UCA0BR0 = 0x41;     //833 decimal = 341 in hex
                     UCA0BR1 = 0x03;
-                    UCA0MCTL |= UCBRS_2;  //Modulation control, set to Second Stage Modulation Select 2
-                    UCA0MCTL |= UCBRF_0;  //Modulation control, USCI First Stage Modulation Select 0
+                    //UCA0MCTL |= UCBRS_2;  //Modulation control, set to Second Stage Modulation Select 2
+                    //UCA0MCTL |= UCBRF_0;  //Modulation control, USCI First Stage Modulation Select 0
                 break;
 
                 //16MHz, 9600 Baud
                 case CAL_DCO_16MHZ:
                     UCA0BR0 = 0x82;     //1666 decimal = 682 in hex
                     UCA0BR1 = 0x06;
-                    UCA0MCTL |= UCBRS_6;  //Modulation control, set to Second Stage Modulation Select 6
-                    UCA0MCTL |= UCBRF_0;  //Modulation control, USCI First Stage Modulation Select 0
+                    //UCA0MCTL |= UCBRS_6;  //Modulation control, set to Second Stage Modulation Select 6
+                    //UCA0MCTL |= UCBRF_0;  //Modulation control, USCI First Stage Modulation Select 0
                 break;
 
                 default:
@@ -184,24 +183,24 @@ void init_uart(char baud) {
                 case CAL_DCO_1MHZ:
                     UCA0BR0 = 0x08;     //8 decimal = 08 in hex
                     UCA0BR1 = 0x00;
-                    UCA0MCTL |= UCBRS_6;  //Modulation control, set to Second Stage Modulation Select 6
-                    UCA0MCTL |= UCBRF_0;  //Modulation control, USCI First Stage Modulation Select 0
+                    //UCA0MCTL |= UCBRS_6;  //Modulation control, set to Second Stage Modulation Select 6
+                    //UCA0MCTL |= UCBRF_0;  //Modulation control, USCI First Stage Modulation Select 0
                 break;
 
                 //8 MHz, 115200 Baud
                 case CAL_DCO_8MHZ:
                     UCA0BR0 = 0x45;     //69 decimal = 45 in hex
                     UCA0BR1 = 0x00;
-                    UCA0MCTL |= UCBRS_4;  //Modulation control, set to Second Stage Modulation Select 4
-                    UCA0MCTL |= UCBRF_0;  //Modulation control, USCI First Stage Modulation Select 0
+                    //UCA0MCTL |= UCBRS_4;  //Modulation control, set to Second Stage Modulation Select 4
+                    //UCA0MCTL |= UCBRF_0;  //Modulation control, USCI First Stage Modulation Select 0
                 break;
 
                 //16 MHz, 115200 Baud
                 case CAL_DCO_16MHZ:
                     UCA0BR0 = 0x8A;     //138 decimal = 8A in hex
                     UCA0BR1 = 0x00;
-                    UCA0MCTL |= UCBRS_7;  //Modulation control, set to Second Stage Modulation Select 7
-                    UCA0MCTL |= UCBRF_0;  //Modulation control, USCI First Stage Modulation Select 0
+                    //UCA0MCTL |= UCBRS_7;  //Modulation control, set to Second Stage Modulation Select 7
+                    //UCA0MCTL |= UCBRF_0;  //Modulation control, USCI First Stage Modulation Select 0
                 break;
 
                 default:
@@ -214,6 +213,12 @@ void init_uart(char baud) {
 
     }
 
+    __bis_SR_register(GIE);
+    //P1IE |= 0x08;
+    //P1IES |= 0x08;
+    IE2 |= UCA0RXIE;
+    __enable_interrupt();
+
     UCA0CTL1 &= ~ UCSWRST;  //clear UCSWRST
 }
 
@@ -222,7 +227,7 @@ void uninit_uart() {
 
     UCA0CTL1 &= ~UCSSEL_2;   //SMCLK clock **RESET**
 
-    UCA0CTL1 &= ~UCSWRST;    //reset UCSWRST
+    UCA0CTL1 |= UCSWRST;    //reset UCSWRST
     UCA0MCTL = UCBRS_0;     //Modulation control, set to Second Stage Modulation Select 0
     UCA0MCTL = UCBRF_0;     //Modulation control, USCI First Stage Modulation Select 0
     UCA0CTL0 = 0;           //reset control register 0
@@ -278,7 +283,7 @@ char uart_rx(char block) {
   }
 
   //Functionality when block is one and buffer is initially empty. Waits for the RX buffer to become a value and then returns that value.
-  //while(!(IFG1 & UCA0RXIFG));
-  char recieved_char = 'a';//UCA0RXBUF;
-  return 'a';  //Returns the current value stored on the RX buffer.
+  while(!(IFG1 & UCA0RXIFG));
+  char recieved_char = UCA0RXBUF;
+  return UCA0RXBUF;  //Returns the current value stored on the RX buffer.
 }
