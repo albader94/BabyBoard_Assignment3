@@ -28,19 +28,19 @@ const char* quit_cmd = "quit";
 
 // Queen quote to print
 unsigned char* quote = "In the year of '39, assembled here the volunteers, in the days when the lands were few.  Here the ship sailed out into the ...\n";
+char clk;
 
 int main(void) {
   WDTCTL = WDTPW + WDTHOLD; // Stop watchdog timer
 
   // Begin with clock at 8MHz
   set_clock(1);
+  clk = 1;
 
   // Initialize port 1
   //P1DIR |= ;
-  P1SEL |= BIT1;
-  P1SEL |= BIT2;
-  P1SEL2 |= BIT1;
-  P1SEL2 |= BIT2;
+  P1SEL |= BIT1 + BIT2;
+  P1SEL2 |= BIT1 + BIT2;
 
   P2DIR = BIT1; // Initialize port 2
   P2OUT = 0x00;
@@ -50,11 +50,13 @@ int main(void) {
 
   // Initialize UART with 9600 baud
   char baud = UART_BAUD_9600;
-  init_uart(baud);
+  init_uart(baud, clk);
 
-  //while(1){
-  //    putch(0x61);
-  //}
+ /* while(1){
+      putch('a');
+  }*/
+
+  //while(1){}
 
   // Main loop
   while (1) {
@@ -72,8 +74,9 @@ int main(void) {
         uninit_uart();
         // Set clock speed to 1MHz
         set_clock(1);
+        clk = 1;
         // Reinitialize UART with new clock speed, keeping baud rate
-        init_uart(baud);
+        init_uart(baud, clk);
         put_str("Set clock speed to 1MHz\n");
       break;
 
@@ -81,8 +84,9 @@ int main(void) {
         uninit_uart();
         // Set clock speed to 8MHz
         set_clock(8);
+        clk = 8;
         // Reinitialize UART with new clock speed, keeping baud rate
-        init_uart(baud);
+        init_uart(baud, clk);
         put_str("Set clock speed to 8MHz\n");
       break;
 
@@ -90,8 +94,9 @@ int main(void) {
         uninit_uart();
         // Set clock speed to 16MHz
         set_clock(16);
+        clk = 16;
         // Reinitialize UART with new clock speed, keeping baud rate
-        init_uart(baud);
+        init_uart(baud, clk);
         put_str("Set clock speed to 16MHz\n");
         break;
           default:
@@ -113,7 +118,7 @@ int main(void) {
         put_str("Setting baud rate\n");
         // Reinitialize UART with new baud rate, keeping clock speed
         uninit_uart();
-        init_uart(baud);
+        init_uart(baud, clk);
       }
       else {
         put_str("Invalid baud rate\n");

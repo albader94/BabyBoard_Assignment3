@@ -2,14 +2,20 @@
 **** Build of configuration Debug for project BabyBoard ****
 
 "C:\\Program Files (x86)\\ccsv7\\utils\\bin\\gmake" -k -j 4 all -O 
-'Building file: ../uart.c'
+'Building file: ../main.c'
 'Invoking: MSP430 Compiler'
-"C:/Program Files (x86)/ccsv7/tools/compiler/ti-cgt-msp430_16.9.3.LTS/bin/cl430" -vmsp --use_hw_mpy=none --include_path="C:/Program Files (x86)/ccsv7/ccs_base/msp430/include" --include_path="C:/Users/baal8860/Documents/GitHub/BabyBoard_Assignment3/BabyBoard" --include_path="C:/Program Files (x86)/ccsv7/tools/compiler/ti-cgt-msp430_16.9.3.LTS/include" --advice:power=all --define=__MSP430G2553__ -g --printf_support=minimal --diag_warning=225 --diag_wrap=off --display_error_number --preproc_with_compile --preproc_dependency="uart.d"  "../uart.c"
-"../uart.c", line 234: remark #1528-D: (ULP 3.1) Detected flag polling using IFG2. Recommend using an interrupt combined with enter LPMx and ISR
-"../uart.c", line 277: warning #69-D: integer conversion resulted in a change of sign
-"../uart.c", line 282: warning #179-D: variable "recieved_char" was declared but never referenced
-"../uart.c", line 282: remark #1535-D: (ULP 8.1) variable "recieved_char" is used as a constant. Recommend declaring variable as either 'static const' or 'const'
-'Finished building: ../uart.c'
+"C:/Program Files (x86)/ccsv7/tools/compiler/ti-cgt-msp430_16.9.3.LTS/bin/cl430" -vmsp --use_hw_mpy=none --include_path="C:/Program Files (x86)/ccsv7/ccs_base/msp430/include" --include_path="C:/Users/baal8860/Documents/GitHub/BabyBoard_Assignment3/BabyBoard" --include_path="C:/Program Files (x86)/ccsv7/tools/compiler/ti-cgt-msp430_16.9.3.LTS/include" --advice:power=all --define=__MSP430G2553__ -g --printf_support=minimal --diag_warning=225 --diag_wrap=off --display_error_number --preproc_with_compile --preproc_dependency="main.d"  "../main.c"
+"../main.c", line 62: warning #129-D: loop is not reachable
+"../main.c", line 59: remark #1527-D: (ULP 2.1) Detected SW delay loop using empty loop. Recommend using a timer module instead
+"../main.c", line 157: remark #1527-D: (ULP 2.1) Detected SW delay loop using empty loop. Recommend using a timer module instead
+"../main.c", line 165: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 166: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 167: remark #1533-D: (ULP 6.1) Detected use of multiplication on a device that has no hardware multiplier
+"../main.c", line 184: remark #1533-D: (ULP 6.1) Detected use of multiplication on a device that has no hardware multiplier
+"../main.c", line 229: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 230: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 231: remark #1533-D: (ULP 6.1) Detected use of multiplication on a device that has no hardware multiplier
+'Finished building: ../main.c'
 ' '
 'Building target: BabyBoard.out'
 'Invoking: MSP430 Linker'

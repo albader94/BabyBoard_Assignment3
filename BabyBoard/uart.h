@@ -20,7 +20,7 @@
 void set_clock(int speed);
 
 // init_uart: Initialize everything necessary for the UART functionality you are implementing.  Be sure not to affect pins other than the TX and RX pins (output values, directions, or select registers).  You must support a baud rate of 9600 (UART_BAUD_9600) and 115200 (UART_BAUD_115200).  The other baud rates are optional.
-void init_uart(char baud);
+void init_uart(char baud, char clk);
 
 // uninit_uart: Uninitialize the uart driver.
 void uninit_uart(void);

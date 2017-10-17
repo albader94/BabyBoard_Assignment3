@@ -48,20 +48,20 @@ void set_clock(int speed) {
 
         //For 1 MHZ speed
         case 1:
-            BCSCTL1 = CAL_BC1_1MHZ;     //Basic clock system control = 1MHZ
-            DCOCTL = CAL_DCO_1MHZ;      //Clock frequency control = 1MHZ
+            BCSCTL1 = CALBC1_1MHZ;     //Basic clock system control = 1MHZ
+            DCOCTL = CALDCO_1MHZ;      //Clock frequency control = 1MHZ
         break;
 
         //For 8 MHZ speed
         case 8:
-            BCSCTL1 = CAL_BC1_8MHZ;     //Basic clock system control = 8MHZ
-            DCOCTL = CAL_DCO_8MHZ;      //Clock frequency control = 8MHZ
+            BCSCTL1 = CALBC1_8MHZ;     //Basic clock system control = 8MHZ
+            DCOCTL = CALDCO_8MHZ;      //Clock frequency control = 8MHZ
         break;
 
         //For 16 MHZ speed
         case 16:
-            BCSCTL1 = CAL_BC1_16MHZ;    //Basic clock system control = 16MHZ
-            DCOCTL = CAL_DCO_16MHZ;     //Clock frequency control = 16MHZ
+            BCSCTL1 = CALBC1_16MHZ;    //Basic clock system control = 16MHZ
+            DCOCTL = CALDCO_16MHZ;     //Clock frequency control = 16MHZ
         break;
 
         default:
@@ -74,7 +74,7 @@ void set_clock(int speed) {
 *  Be sure not to affect pins other than the TX and RX pins (output values, directions, or select registers).
 *  You must support a baud rate of 9600 (UART_BAUD_9600) and 115200 (UART_BAUD_115200).  The other baud rates are optional.
 */
-void init_uart(char baud) {
+void init_uart(char baud, char clk) {
   /*
    *
    * 1. Set UCSWRST
@@ -97,6 +97,7 @@ void init_uart(char baud) {
      * UCSYNC = UART mode
      * */
 
+
     UCA0CTL0 &= ~UC7BIT;     //8-bit data
     UCA0CTL0 &= ~UCMODE0;
     UCA0CTL0 &= ~UCMODE1;
@@ -105,8 +106,7 @@ void init_uart(char baud) {
     UCA0CTL0 &= ~UCMSB;      //LSB first
     UCA0CTL0 &= ~UCSYNC;
 
-    //P1SEL |= 0x6;
-    //P1SEL2 |= 0x6;
+
 
     /*
      *Baud rate set
@@ -119,30 +119,30 @@ void init_uart(char baud) {
 
         //Baud = 9600
         case 0:
-            switch(DCOCTL){
+            switch(clk){
 
                 //1MHz, 9600 Baud
-                case CAL_DCO_1MHZ:
+                case 1:
                     UCA0BR0 = 0x68;     //104 decimal = 68 in hex
                     UCA0BR1 = 0x00;
-                    //UCA0MCTL |= UCBRS_1;  //Modulation control, set to Second Stage Modulation Select 2
-                    //UCA0MCTL |= UCBRF_0;  //Modulation control, USCI First Stage Modulation Select 0
+                    UCA0MCTL |= UCBRS_1;  //Modulation control, set to Second Stage Modulation Select 2
+                    UCA0MCTL |= UCBRF_0;  //Modulation control, USCI First Stage Modulation Select 0
                 break;
 
                 //8MHz, 9600 Baud
-                case CAL_DCO_8MHZ:
+                case 8:
                     UCA0BR0 = 0x41;     //833 decimal = 341 in hex
                     UCA0BR1 = 0x03;
-                    //UCA0MCTL |= UCBRS_2;  //Modulation control, set to Second Stage Modulation Select 2
-                    //UCA0MCTL |= UCBRF_0;  //Modulation control, USCI First Stage Modulation Select 0
+                    UCA0MCTL |= UCBRS_2;  //Modulation control, set to Second Stage Modulation Select 2
+                    UCA0MCTL |= UCBRF_0;  //Modulation control, USCI First Stage Modulation Select 0
                 break;
 
                 //16MHz, 9600 Baud
-                case CAL_DCO_16MHZ:
+                case 16:
                     UCA0BR0 = 0x82;     //1666 decimal = 682 in hex
                     UCA0BR1 = 0x06;
-                    //UCA0MCTL |= UCBRS_6;  //Modulation control, set to Second Stage Modulation Select 6
-                    //UCA0MCTL |= UCBRF_0;  //Modulation control, USCI First Stage Modulation Select 0
+                    UCA0MCTL |= UCBRS_6;  //Modulation control, set to Second Stage Modulation Select 6
+                    UCA0MCTL |= UCBRF_0;  //Modulation control, USCI First Stage Modulation Select 0
                 break;
 
                 default:
@@ -176,49 +176,49 @@ void init_uart(char baud) {
 
         //Baud = 115200
         case 4:
-            switch(DCOCTL){
+            switch(clk){
 
                 //1 MHz, 115200 Baud
-                case CAL_DCO_1MHZ:
+                case 1:
                     UCA0BR0 = 0x08;     //8 decimal = 08 in hex
                     UCA0BR1 = 0x00;
-                    //UCA0MCTL |= UCBRS_6;  //Modulation control, set to Second Stage Modulation Select 6
-                    //UCA0MCTL |= UCBRF_0;  //Modulation control, USCI First Stage Modulation Select 0
+                    UCA0MCTL |= UCBRS_6;  //Modulation control, set to Second Stage Modulation Select 6
+                    UCA0MCTL |= UCBRF_0;  //Modulation control, USCI First Stage Modulation Select 0
                 break;
 
                 //8 MHz, 115200 Baud
-                case CAL_DCO_8MHZ:
+                case 8:
                     UCA0BR0 = 0x45;     //69 decimal = 45 in hex
                     UCA0BR1 = 0x00;
-                    //UCA0MCTL |= UCBRS_4;  //Modulation control, set to Second Stage Modulation Select 4
-                    //UCA0MCTL |= UCBRF_0;  //Modulation control, USCI First Stage Modulation Select 0
+                    UCA0MCTL |= UCBRS_4;  //Modulation control, set to Second Stage Modulation Select 4
+                    UCA0MCTL |= UCBRF_0;  //Modulation control, USCI First Stage Modulation Select 0
                 break;
 
                 //16 MHz, 115200 Baud
-                case CAL_DCO_16MHZ:
+                case 16:
                     UCA0BR0 = 0x8A;     //138 decimal = 8A in hex
                     UCA0BR1 = 0x00;
-                    //UCA0MCTL |= UCBRS_7;  //Modulation control, set to Second Stage Modulation Select 7
-                    //UCA0MCTL |= UCBRF_0;  //Modulation control, USCI First Stage Modulation Select 0
+                    UCA0MCTL |= UCBRS_7;  //Modulation control, set to Second Stage Modulation Select 7
+                    UCA0MCTL |= UCBRF_0;  //Modulation control, USCI First Stage Modulation Select 0
                 break;
 
                 default:
                     break;
             }
-        break;
+        //break;
 
         default:
         break;
 
     }
 
-    __bis_SR_register(GIE);
-    //P1IE |= 0x08;
-    //P1IES |= 0x08;
-    IE2 |= UCA0RXIE;
-    __enable_interrupt();
-
     UCA0CTL1 &= ~ UCSWRST;  //clear UCSWRST
+
+    UC0IE |= UCA0RXIE;    //Enable RX interrupt
+    //__enable_interrupt();
+    __bis_SR_register(GIE);
+
+
 }
 
 // uninit_uart: Uninitialize the uart driver.
@@ -265,10 +265,11 @@ void put_str(unsigned char* c) {
 */
 
 char uart_rx(char block) {
-    return;
+    //return;
 
   //If the buffer contains a character, return the character.
   //UCA0RXIFG: If 0 buffer is empty. If 1 buffer is full.
+
   if(IFG1 & UCA0RXIFG){
       char recieved_char = UCA0RXBUF;
       return recieved_char; //Returns the current value stored on the RX buffer.
@@ -282,12 +283,19 @@ char uart_rx(char block) {
   //Functionality when block is one and buffer is initially empty. Waits for the RX buffer to hold a value and then returns that value.
   while(!(IFG2 & UCA0RXIFG));
   char recieved_char = UCA0RXBUF;
-  putch(recieved_char);
+  //putch(recieved_char);
   return recieved_char;  //Returns the current value stored on the RX buffer.
+
 }
 
 #pragma vector=USCIAB0RX_VECTOR
 __interrupt void USCI0RX_ISR(void){
+
     char character = UCA0RXBUF;
-    UCA0TXBUF = character;
+    if(UCA0RXBUF == 'a'){
+        UC0IE |= UCA0TXIE;
+        UCA0TXBUF = character;
+    }
+
+    UC0IE &= ~UCA0TXIE;
 }
