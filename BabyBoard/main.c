@@ -49,8 +49,9 @@ int main(void) {
   P3OUT = 0x00;
 
   // Initialize UART with 9600 baud
-  char baud = UART_BAUD_9600;
+  char baud = 0;
   init_uart(baud, clk);
+  __bis_SR_register(GIE);
 
   // Main loop
   while (1) {

@@ -1,7 +1,7 @@
 ******************************************************************************
                   MSP430 Linker PC v16.9.4                     
 ******************************************************************************
->> Linked Mon Oct 16 21:36:17 2017
+>> Linked Mon Oct 16 21:52:54 2017
 
 OUTPUT FILE NAME:   <BabyBoard.out>
 ENTRY POINT SYMBOL: "_c_int00_noargs_noexit"  address: 0000c654
@@ -57,9 +57,9 @@ section   page    origin      length       input sections
                   000003b2    0000004e     --HOLE--
 
 .text      0    0000c000    0000074c     
-                  0000c000    000001c0     main.obj (.text:main)
-                  0000c1c0    00000116     main.obj (.text:read_line)
-                  0000c2d6    000000ec     uart.obj (.text:init_uart)
+                  0000c000    000001c2     main.obj (.text:main)
+                  0000c1c2    00000116     main.obj (.text:read_line)
+                  0000c2d8    000000ea     uart.obj (.text:init_uart)
                   0000c3c2    0000007c     rts430_eabi.lib : copy_decompress_lzss.obj (.text:decompress:lzss:__TI_decompress_lzss)
                   0000c43e    0000006e                     : autoinit.obj (.text:_auto_init)
                   0000c4ac    0000005a                     : cpy_tbl.obj (.text:copy_in)
@@ -158,8 +158,8 @@ MODULE SUMMARY
        Module                     code   ro data   rw data
        ------                     ----   -------   -------
     .\
-       main.obj                   762    402       27     
-       uart.obj                   404    2         1      
+       main.obj                   764    402       27     
+       uart.obj                   402    2         1      
     +--+--------------------------+------+---------+---------+
        Total:                     1166   404       28     
                                                           
@@ -411,7 +411,7 @@ ffffffff  __c_args__
 00000211  clk                     
 00000212  clock_cmd               
 0000c4ac  copy_in                 
-0000c2d6  init_uart               
+0000c2d8  init_uart               
 0000c60c  is_whitespace           
 0000c000  main                    
 0000c6ee  memcpy                  
@@ -420,7 +420,7 @@ ffffffff  __c_args__
 00000218  quit_cmd                
 0000021a  quote                   
 00000216  quote_cmd               
-0000c1c0  read_line               
+0000c1c2  read_line               
 0000c5a4  set_clock               
 0000c66e  strcmp                  
 0000c71e  strlen                  
@@ -542,8 +542,8 @@ address   name
 000010fe  CALDCO_1MHZ             
 000010ff  CALBC1_1MHZ             
 0000c000  main                    
-0000c1c0  read_line               
-0000c2d6  init_uart               
+0000c1c2  read_line               
+0000c2d8  init_uart               
 0000c3c2  __TI_decompress_lzss    
 0000c43e  _auto_init              
 0000c4ac  copy_in                 

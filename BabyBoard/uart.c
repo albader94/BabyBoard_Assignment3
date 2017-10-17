@@ -177,7 +177,7 @@ void init_uart(char baud, char clk) {
         break;*/
 
         //Baud = 115200
-        case 4:
+        case 1:
             switch(clk){
 
                 //1 MHz, 115200 Baud
@@ -218,7 +218,7 @@ void init_uart(char baud, char clk) {
 
     UC0IE |= UCA0RXIE;    //Enable RX interrupt
     //__enable_interrupt();
-    __bis_SR_register(GIE);
+    //__bis_SR_register(GIE);
 
 
 }
