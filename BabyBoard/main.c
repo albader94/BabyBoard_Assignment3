@@ -37,6 +37,15 @@ int main(void) {
   set_clock(1);
   clk = 1;
 
+  //Clock
+  P1REN |= BIT0;
+  ADC10AE0 = 0;
+  CAPD = 0;
+  P1SEL |= BIT0;
+  P1SEL2 &= (~BIT0);
+  P1DIR |= BIT0;
+
+
   // Initialize port 1
   //P1DIR |= ;
   P1SEL |= BIT1 + BIT2;
