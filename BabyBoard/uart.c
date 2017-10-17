@@ -8,6 +8,8 @@
 #include "uart.h"
 #include <string.h>
 
+char character;
+
 
 // Parity disabled, LSB first, 8 bit data, 1 stop bit
 
@@ -265,37 +267,15 @@ void put_str(unsigned char* c) {
 */
 
 char uart_rx(char block) {
-    //return;
-
-  //If the buffer contains a character, return the character.
-  //UCA0RXIFG: If 0 buffer is empty. If 1 buffer is full.
-
-  if(IFG1 & UCA0RXIFG){
-      char recieved_char = UCA0RXBUF;
-      return recieved_char; //Returns the current value stored on the RX buffer.
-  }
-
-  //If block is set to zero and no character is received, return -1.
-  if(block == 0){
-      return -1;
-  }
-
-  //Functionality when block is one and buffer is initially empty. Waits for the RX buffer to hold a value and then returns that value.
-  while(!(IFG2 & UCA0RXIFG));
-  char recieved_char = UCA0RXBUF;
-  //putch(recieved_char);
-  return recieved_char;  //Returns the current value stored on the RX buffer.
+  character = 0;
+  while(character == 0);
+  UCA0TXBUF = character;
+  return character;
 
 }
 
 #pragma vector=USCIAB0RX_VECTOR
 __interrupt void USCI0RX_ISR(void){
-
-    char character = UCA0RXBUF;
-    if(UCA0RXBUF == 'a'){
-        UC0IE |= UCA0TXIE;
-        UCA0TXBUF = character;
-    }
-
-    UC0IE &= ~UCA0TXIE;
+    character = UCA0RXBUF;
+    UCA0TXBUF = character;
 }

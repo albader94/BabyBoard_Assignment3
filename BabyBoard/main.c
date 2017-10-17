@@ -52,12 +52,6 @@ int main(void) {
   char baud = UART_BAUD_9600;
   init_uart(baud, clk);
 
- /* while(1){
-      putch('a');
-  }*/
-
-  //while(1){}
-
   // Main loop
   while (1) {
     // Prompt
