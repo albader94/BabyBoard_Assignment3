@@ -38,12 +38,9 @@ int main(void) {
   clk = 1;
 
   //Clock
-  P1REN |= BIT0;
-  ADC10AE0 = 0;
-  CAPD = 0;
-  P1SEL |= BIT0;
-  P1SEL2 &= (~BIT0);
-  P1DIR |= BIT0;
+  P1SEL |= BIT4;
+  P1SEL2 &= (~BIT4);
+  P1DIR |= BIT4;
 
 
   // Initialize port 1

@@ -87,7 +87,6 @@ void init_uart(char baud, char clk) {
    *
    */
 
-    //bauds[2][3];
 
     UCA0CTL1 |= UCSWRST;    //set UCSWRST
     UCA0CTL1 |= UCSSEL_2;   //SMCLK clock  "SMCLK for UART"
@@ -106,7 +105,7 @@ void init_uart(char baud, char clk) {
     UCA0CTL0 &= ~UCPEN;      //Disable parity bit
     UCA0CTL0 &= ~UCSPB;      //One stop bit
     UCA0CTL0 &= ~UCMSB;      //LSB first
-    UCA0CTL0 &= ~UCSYNC;
+    UCA0CTL0 &= ~UCSYNC;    //UART Mode
 
 
 
@@ -207,7 +206,7 @@ void init_uart(char baud, char clk) {
                 default:
                     break;
             }
-        //break;
+        break;
 
         default:
         break;
